@@ -1,8 +1,9 @@
 const sql = require('mssql');
+ 
 
 const config = {
-    server: 'DESKTOP-UD05JRG\MSSQLSERVER01',
-    user:'root',
+    server: 'DESKTOP-UD05JRG',
+    user:'DESKTOP-UD05JRG\\Admin',
     host:'localhost',
     password:'',
     database:'job',
