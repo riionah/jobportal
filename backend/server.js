@@ -1,22 +1,20 @@
+require('dotenv').config(); // Load environment variables from .env
 const sql = require('mssql');
 
 const config = {
-    server: 'DESKTOP-UD05JRG\\MSSQLSERVER01',  // Replace with your SQL Server instance
-    database: 'job',  // Your database name
-    authentication: {
-        type: 'ntlm',  // Use ntlm for Windows Authentication
-        options: {
-            domain: 'DESKTOP-UD05JRG',  // Your domain or computer name
-            userName: 'Admin',  // Windows username
-        }
-    },
+    server: process.env.DB_SERVER,
+    database: process.env.DB_DATABASE,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
     options: {
-        encrypt: false,  // Set to true if using Azure SQL
+        encrypt: false,
         enableArithAbort: true,
-        trustServerCertificate: true  // Sometimes needed for self-signed certificates
+        trustServerCertificate: true
     }
 };
 
+
+
 sql.connect(config)
-    .then(() => console.log("Connected to MSSQL using Windows Authentication"))
+    .then(() => console.log("Connected to MSSQL successfully"))
     .catch(err => console.error("Connection error:", err));
