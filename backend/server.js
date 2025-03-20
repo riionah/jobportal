@@ -1,20 +1,21 @@
-require('dotenv').config(); // Load environment variables from .env
-const sql = require('mssql');
+require('dotenv').config();
+const express = require('express');
+const cors = require('cors');
+const helmet = require('helmet');
+const { connectDB } = require('./config/db');
+const authRoutes = require('./routes/authroutes');
 
-const config = {
-    server: process.env.DB_SERVER,
-    database: process.env.DB_DATABASE,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    options: {
-        encrypt: false,
-        enableArithAbort: true,
-        trustServerCertificate: true
-    }
-};
+const app = express();
 
 
+app.use(express.json());
+app.use(cors());
+app.use(helmet());
 
-sql.connect(config)
-    .then(() => console.log("Connected to MSSQL successfully"))
-    .catch(err => console.error("Connection error:", err));
+app.use('/api/auth', authRoutes);
+
+
+const PORT = process.env.PORT || 5000;
+connectDB().then(() => {
+    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+});
